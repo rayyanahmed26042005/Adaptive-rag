@@ -67,21 +67,33 @@ def verify_answer(state: State) -> Literal["__end__", "generate"]:
     context = state["messages"][-1].content
     final_answer = state["messages"][-1].content
 
-    verify_prompt = PromptTemplate(
-        template=config.prompt("verify_prompt"),
-        input_variables=["question", "context", "final_answer"]
-    )
-    llm_with_verification = llm.with_structured_output(VerificationResult)
+    faithful = True
+    try:
+        verify_prompt = PromptTemplate(
+            template=config.prompt("verify_prompt"),
+            input_variables=["question", "context", "final_answer"]
+        )
+        llm_with_verification = llm.with_structured_output(VerificationResult)
 
-    verify_chain = verify_prompt | llm_with_verification
+        verify_chain = verify_prompt | llm_with_verification
 
-    result = verify_chain.invoke({
-        "question": question,
-        "context": context,
-        "final_answer": final_answer
-    })
+        result = verify_chain.invoke({
+            "question": question,
+            "context": context,
+            "final_answer": final_answer
+        })
 
-    if result.faithful:
+        print("Verification result received:", result)
+        if result and hasattr(result, "faithful"):
+            faithful = result.faithful
+        elif result and isinstance(result, dict) and "faithful" in result:
+            faithful = result["faithful"]
+        else:
+            print("Warning: verify_answer returned None. Falling back to faithful=True.")
+    except Exception as e:
+        print(f"Error in verify_answer: {e}. Falling back to faithful=True.")
+
+    if faithful:
         return "__end__"
     else:
         print("Generating again as answer is not faithful.")

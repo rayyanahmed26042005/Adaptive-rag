@@ -37,17 +37,26 @@ def query_classifier(state: State):
     print("docs received from Qdrant")
     print(context)
 
-    llm_with_structured_output = llm.with_structured_output(RouteIdentifier)
-    classify_prompt = PromptTemplate(
-        template=config.prompt("classify_prompt"),
-        input_variables=["question", "context"]
-    )
-    chain = classify_prompt | llm_with_structured_output
-    result = chain.invoke({"question": question, "context": context})
-    print("result received is in query classifier")
-    print(result.route)
+    route = "general"
+    try:
+        llm_with_structured_output = llm.with_structured_output(RouteIdentifier)
+        classify_prompt = PromptTemplate(
+            template=config.prompt("classify_prompt"),
+            input_variables=["question", "context"]
+        )
+        chain = classify_prompt | llm_with_structured_output
+        result = chain.invoke({"question": question, "context": context})
+        print("result received is in query classifier:", result)
+        if result and hasattr(result, "route") and result.route:
+            route = result.route
+        elif result and isinstance(result, dict) and "route" in result:
+            route = result["route"]
+        else:
+            print("Warning: query_classifier returned None or invalid result. Falling back to general route.")
+    except Exception as e:
+        print(f"Error in query_classifier: {e}. Falling back to general route.")
 
-    return {"messages": state["messages"], "route": result.route, "latest_query": question}
+    return {"messages": state["messages"], "route": route, "latest_query": question}
 
 
 def general_llm(state: State):
