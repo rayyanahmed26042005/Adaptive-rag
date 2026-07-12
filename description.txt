@@ -1,1 +1,1 @@
-Tool Instruction: "Use this tool exclusively to answer questions based on the provided biomedical knowledge document. Do not use external information or provide answers outside the scope of this specific content."
+Tool Instruction: "Use this tool to answer questions exclusively based on the provided document content. Do not use outside knowledge or information not contained within the uploaded file."

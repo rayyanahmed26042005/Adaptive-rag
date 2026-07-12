@@ -117,3 +117,8 @@ requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8
 2026-07-12 14:14:49,627 - INFO - Calling /login, status code: 200
 2026-07-12 14:19:53,740 - INFO - Calling /init, status code: 200
 2026-07-12 14:20:04,410 - INFO - Calling /login, status code: 200
+2026-07-12 16:02:59,351 - INFO - Calling /init, status code: 200
+2026-07-12 16:03:08,784 - INFO - Calling /login, status code: 401
+2026-07-12 16:03:15,632 - INFO - API Token received: 0d6bf31d-15e0-477f-8b14-31195cd509fa
+2026-07-12 16:03:16,097 - INFO - Calling /create_user, status code: 200
+2026-07-12 16:03:19,816 - INFO - Calling /login, status code: 200
