@@ -4,8 +4,7 @@ MongoDB client initialization.
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
-MONGO_URL = "mongodb://localhost:27017"
-DB_NAME = "adaptive_rag"
+from src.core.config import settings
 
-client = AsyncIOMotorClient(MONGO_URL)
-db = client[DB_NAME]
+client = AsyncIOMotorClient(settings.MONGODB_URL)
+db = client[settings.MONGODB_DB_NAME]

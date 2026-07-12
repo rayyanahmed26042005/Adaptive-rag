@@ -6,7 +6,10 @@ import logging
 
 import streamlit as st
 
-from utils.api_client import create_user, login_user, get_api_token
+try:
+    from utils.api_client import create_user, login_user, get_api_token
+except ImportError:
+    from streamlit_app.utils.api_client import create_user, login_user, get_api_token
 
 # Hide sidebar for cleaner look
 hide_sidebar_style = """

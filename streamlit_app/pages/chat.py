@@ -4,7 +4,10 @@ Chat page for the Streamlit application.
 
 import streamlit as st
 
-from streamlit_app.utils.api_client import query_backend, document_upload_rag
+try:
+    from utils.api_client import query_backend, document_upload_rag
+except ImportError:
+    from streamlit_app.utils.api_client import query_backend, document_upload_rag
 
 # Configure page settings
 st.set_page_config(
@@ -68,12 +71,18 @@ with st.sidebar:
         if file_description:
             if file_key not in st.session_state.uploaded_files:
                 # Upload file if not already uploaded
-                success = document_upload_rag(uploaded_file, file_description)
+                result_upload = document_upload_rag(uploaded_file, file_description)
+                if isinstance(result_upload, tuple):
+                    success, msg = result_upload
+                else:
+                    success = result_upload
+                    msg = "Please restart the Streamlit server to load the updated api client."
+
                 if success:
                     st.success(f"Uploaded: {uploaded_file.name}")
                     st.session_state.uploaded_files[file_key] = True
                 else:
-                    st.error(f"Document Upload Failed: {uploaded_file.name}")
+                    st.error(f"Document Upload Failed: {uploaded_file.name}. Details: {msg}")
             else:
                 st.info(f"Uploaded: {uploaded_file.name}")
         else:

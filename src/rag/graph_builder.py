@@ -11,7 +11,7 @@ from langgraph.graph.state import StateGraph
 from src.rag.reAct_agent import agent_executor
 from src.rag.retriever_setup import get_retriever
 from src.config.settings import Config
-from src.llms.openai import llm
+from src.llms.gemini import llm
 from src.models.grade import Grade
 from src.models.route_identifier import RouteIdentifier
 from src.models.state import State

@@ -1,7 +1,7 @@
 langchain~=0.3.27
 langgraph~=0.5.4
 langchain_community~=0.3.27
-langchain_core~=0.3.72
+langchain_core~=0.3.86
 langchain_groq
 langchain_openai~=0.3.28
 faiss-cpu
@@ -21,3 +21,5 @@ streamlit
 requests
 langchain-qdrant
 python-multipart
+pypdf
+langchain-google-genai~=2.1.12

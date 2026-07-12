@@ -1,1 +1,1 @@
-This tool is designed solely for answering questions related to the content of your uploaded resume. Please use it to inquire specifically about the details and information contained within your document.
+Tool Instruction: "Use this tool exclusively to answer questions based on the provided biomedical knowledge document. Do not use external information or provide answers outside the scope of this specific content."
