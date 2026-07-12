@@ -44,16 +44,10 @@ def query_classifier(state: State):
     )
     chain = classify_prompt | llm_with_structured_output
     result = chain.invoke({"question": question, "context": context})
-    print("result received in query classifier:")
-    print(result)
+    print("result received is in query classifier")
+    print(result.route)
 
-    route = "general"
-    if result and hasattr(result, "route") and result.route:
-        route = result.route
-    elif result and isinstance(result, dict) and "route" in result:
-        route = result["route"]
-
-    return {"messages": state["messages"], "route": route, "latest_query": question}
+    return {"messages": state["messages"], "route": result.route, "latest_query": question}
 
 
 def general_llm(state: State):

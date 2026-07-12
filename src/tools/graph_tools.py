@@ -81,13 +81,7 @@ def verify_answer(state: State) -> Literal["__end__", "generate"]:
         "final_answer": final_answer
     })
 
-    faithful = True
-    if result and hasattr(result, "faithful"):
-        faithful = result.faithful
-    elif result and isinstance(result, dict) and "faithful" in result:
-        faithful = result["faithful"]
-
-    if faithful:
+    if result.faithful:
         return "__end__"
     else:
         print("Generating again as answer is not faithful.")
